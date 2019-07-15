@@ -1,4 +1,4 @@
-package main
+package unmain
 
 import (
 	"crypto"
@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-func main() {
+func unmain() {
 	privKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		log.Fatalf("generating random key: %v", err)
