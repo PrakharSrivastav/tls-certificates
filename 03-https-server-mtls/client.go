@@ -12,9 +12,9 @@ import (
 )
 
 const (
-	RootCertificatePath string = "../certificates/minica.pem"
-	ClientCertPath      string = "../certificates/client/cert.pem"
-	ClientKeyPath       string = "../certificates/client/key.pem"
+	RootCertificatePath string = "../00-certificates/minica.pem"
+	ClientCertPath      string = "../00-certificates/client/cert.pem"
+	ClientKeyPath       string = "../00-certificates/client/key.pem"
 )
 
 func main() {

@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	CertPath string = "../../certificates/server/cert.pem"
-	KeyPath  string = "../../certificates/server/key.pem"
+	CertPath string = "../../00-certificates/server/cert.pem"
+	KeyPath  string = "../../00-certificates/server/key.pem"
 )
 
 func main() {
