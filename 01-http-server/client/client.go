@@ -8,9 +8,11 @@ import (
 )
 
 func main() {
+	var err error
+	var data string
+	var r *http.Request
 	// configure the http request
-	r, err := http.NewRequest(http.MethodGet, "http://localhost:8080/server", nil)
-	if err != nil {
+	if r, err = http.NewRequest(http.MethodGet, "http://localhost:8080/server", nil); err != nil {
 		log.Fatalf("request failed : %v", err)
 	}
 
@@ -21,11 +23,10 @@ func main() {
 	}
 
 	// make the request
-	data, err := callServer(c, r)
-	if err != nil {
+	if data, err = callServer(c, r); err != nil {
 		log.Fatal(err)
 	}
-	print(data)
+	log.Println(data)
 }
 
 func callServer(c http.Client, r *http.Request) (string, error) {

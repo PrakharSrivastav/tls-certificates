@@ -33,9 +33,9 @@ minica --domains server-cert    # this will generate certificate for a domain "s
 minica --domains client-cert    # this will generate certificate for a domain "client-cert"
 ```
 
-## further configuration on your local machine
+## configurations on your machine
 
-add below hostnames to your local machine. For example on linux, update the `/etc/hosts` file with below entries.
+add below host-names to your local machine. For example on linux, update the `/etc/hosts` file with below entries.
 ```bash
 127.0.0.1       server-cert
 127.0.0.1       client-cert

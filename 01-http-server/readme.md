@@ -8,5 +8,5 @@
 - response should be 
   ```bash
   prakhar@tardis (master)✗ % go run client/client.go 
-  Protect Me...%   
+  2019/08/01 22:00:01 Protect Me...
   ```

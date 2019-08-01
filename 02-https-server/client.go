@@ -8,29 +8,41 @@ import (
 )
 
 func main() {
+	var err error
+	var data string
+	var r *http.Request
 	c := http.Client{
 		Timeout:   5 * time.Second,
 		Transport: &http.Transport{IdleConnTimeout: 10 * time.Second,},
 	}
 
-	// req, err := http.NewRequest(http.MethodGet, "https://localhost:8080/server", nil)
-	req, err := http.NewRequest(http.MethodGet, "https://server-cert:8080/server", nil)
-	if err != nil {
+	//if r, err = http.NewRequest(http.MethodGet, "http://localhost:8080/server", nil); err != nil { // 1
+	//if r, err = http.NewRequest(http.MethodGet, "https://localhost:8080/server", nil); err != nil { // 2
+	if r, err = http.NewRequest(http.MethodGet, "https://server-cert:8080/server", nil); err != nil { // 3
 		log.Fatalf("request failed : %v", err)
 	}
 
-	response, err := c.Do(req)
+	// make the request
+	if data, err = callServer(c, r); err != nil {
+		log.Fatal(err)
+	}
+	log.Println(data)
+}
+
+func callServer(c http.Client, r *http.Request) (string, error) {
+	response, err := c.Do(r)
 	if err != nil {
-		log.Fatalf("response failed : %v", err)
+		return "", err
 	}
 	defer response.Body.Close()
 
 	data, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		log.Fatalf("body read failed :  %v", err)
+		return "", err
 	}
 
-	log.Println(string(data))
+	// print the data
+	return string(data), nil
 }
 
 /*
@@ -62,4 +74,4 @@ Client
 2019/07/25 12:50:15 response failed : Get https://server-cert:8080/server: x509: certificate signed by unknown authority
 exit status 1
 
- */
+*/
