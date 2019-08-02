@@ -2,6 +2,7 @@
 
 [HOME](../readme.md)
 
+
 ## certificate generation
 
 If you want to use the certificates with this repository, then you dont need to generate the certificates yourself. If you want to generate a new root, client and server certificate then you can do so by using the utility called minica.
@@ -36,6 +37,7 @@ setup your domains as in informed in [Home](../readme.md) and come back here.
 ## run client
 - in another terminal window, navigate `cd 02-https-server`
 - run the client `go run client.go`
+- we have a set of 3 requests in the code. Uncomment others and try each of the requests. You should see a different client error on each request.
 - the requests should fail. The whole idea is to demonstrate, why the requests are failing.
 
 **Important**: Make sure to run the server and the client from their respective directories.

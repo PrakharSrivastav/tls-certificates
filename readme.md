@@ -46,4 +46,5 @@ this will create an alias for loopback address.
 
 - [01-http-server](01-http-server/readme.md)
 - [02-https-server](02-https-server/readme.md)
-- [03-https-server-mtls](03-https-server-mtls/readme.md)
+- [03-https-client](03-https-client/readme.md)
+- [04-https-server-mtls](04-https-server-mtls/readme.md)
