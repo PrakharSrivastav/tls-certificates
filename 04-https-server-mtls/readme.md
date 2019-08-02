@@ -1,12 +1,9 @@
-# 03-https-server-mtls
+# 04-https-server-mtls
 
 [HOME](../readme.md)
 
-- navigate to this directory `cd 01-http-server`
-- start the server `go run server.go`
-- run the client `go run client/client.go`
-- response should be 
-  ```bash
-  prakhar@tardis (master)✗ % go run client/client.go 
-  Protect Me...%   
-  ```
+- navigate to server directory `cd 04-https-server-mtls/server`
+- run the server `go run server.go`
+- on another terminal, run the client `go run client/client.go`
+
+In this case we have protected both the client and the server by validating the certificates received from the opposite party. Check out the code documentation for more details

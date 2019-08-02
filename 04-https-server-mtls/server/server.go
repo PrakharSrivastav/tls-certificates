@@ -16,56 +16,59 @@ const (
 )
 
 func main() {
-	mux := http.NewServeMux()
 
 	// add an endpoint
+	mux := http.NewServeMux()
 	mux.HandleFunc("/server", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "i am protected")
 	})
-	log.Println("starting server")
 
-	rootCA, err := ioutil.ReadFile(RootCertificatePath)
+	// create a certificate pool and load all the CA certificates that you
+	// want to validate a client against
+	clientCA, err := ioutil.ReadFile(RootCertificatePath)
 	if err != nil {
 		log.Fatalf("reading cert failed : %v", err)
 	}
-	rootCAPool := x509.NewCertPool()
-	rootCAPool.AppendCertsFromPEM(rootCA)
-	log.Println("RootCA loaded")
+	clientCAPool := x509.NewCertPool()
+	clientCAPool.AppendCertsFromPEM(clientCA)
+	log.Println("ClientCA loaded")
 
+	// configure http server with tls configuration
 	s := &http.Server{
 		Handler: mux,
 		Addr:    ":8080",
 		TLSConfig: &tls.Config{
-			ClientCAs:  rootCAPool,
+			ClientCAs:  clientCAPool,
 			ClientAuth: tls.RequireAndVerifyClientCert,
+			// Loads the server's certificate and sends it to the client
 			GetCertificate: func(info *tls.ClientHelloInfo) (certificate *tls.Certificate, e error) {
 				log.Println("client requested certificate")
-
 				c, err := tls.LoadX509KeyPair(CertPath, KeyPath)
 				if err != nil {
-					fmt.Printf("Error loading key pair: %v\n", err)
+					fmt.Printf("Error loading server key pair: %v\n", err)
 					return nil, err
 				}
 				return &c, nil
 			},
+			// Call back function to print client certificate details
 			VerifyPeerCertificate: func(rawCerts [][]byte, chains [][]*x509.Certificate) error {
 				if len(chains) > 0 {
 					fmt.Println("Verified certificate chain from peer:")
-
 					for _, v := range chains {
-						// fmt.Printf("Chain %d:\n", j)
 						for i, cert := range v {
 							fmt.Printf("  Cert %d:\n", i)
 							fmt.Printf(CertificateInfo(cert))
 						}
 					}
 				}
-
 				return nil
 			},
 		},
 	}
 
+	log.Println("starting server")
+
+	// use server.ListenAndServeTLS instead of http.ListenAndServeTLS
 	log.Fatal(s.ListenAndServeTLS("", ""))
 }
 
@@ -73,7 +76,6 @@ func CertificateInfo(cert *x509.Certificate) string {
 	if cert.Subject.CommonName == cert.Issuer.CommonName {
 		return fmt.Sprintf("    Self-signed certificate %v\n", cert.Issuer.CommonName)
 	}
-
 	s := fmt.Sprintf("    Subject %v\n", cert.DNSNames)
 	s += fmt.Sprintf("    Usage %v\n", cert.ExtKeyUsage)
 	s += fmt.Sprintf("    Issued by %s\n", cert.Issuer.CommonName)
