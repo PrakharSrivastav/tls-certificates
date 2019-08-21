@@ -1,6 +1,6 @@
 # tls-certificates
 
-This is a demo application to support this blog post. It demonstrates how to apply mTLS configuration on client and the server in Go.
+This is a demo application to support [this](https://www.prakharsrivastav.com/posts/from-http-to-https-using-go/) blog post. It demonstrates how to apply mTLS configuration on client and the server in Go.
 
 ## project structure
 ```bash
